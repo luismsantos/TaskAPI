@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskAPI.Context;
 using TaskAPI.DTO;
+using TaskAPI.Models;
 
 namespace TaskAPI.Controllers
 {
@@ -18,11 +19,15 @@ namespace TaskAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] TaskInsertDTO taskInsertDTO)
+        public ActionResult<User> Post([FromBody] TaskInsertDTO taskInsertDTO)
         {
+            var user = context.Users.FirstOrDefault(u => u.Id == taskInsertDTO.UserId);
+
             var task = new Models.Task(taskInsertDTO.Title, taskInsertDTO.Description);
 
-            context.Tasks.Add(task);
+            user.Tasks ??= new List<Models.Task>();
+            user.Tasks.Add(task);
+           
             context.SaveChanges();
             return Ok(task);
         }
