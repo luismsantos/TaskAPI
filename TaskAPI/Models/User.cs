@@ -4,12 +4,12 @@ namespace TaskAPI.Models
 {
     public class User
     {
-        [Key] public int Id { get; private set; }
+        [Key] 
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
-        public IList<Task> Tasks { get; set; }
-
+        public List<Task> Tasks { get; set; }
 
         public void SetName(String name)
         {

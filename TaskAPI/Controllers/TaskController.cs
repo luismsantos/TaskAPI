@@ -20,14 +20,17 @@ namespace TaskAPI.Controllers
 
         [HttpPost]
         public ActionResult<User> Post([FromBody] TaskInsertDTO taskInsertDTO)
-        {
+        { 
             var user = context.Users.FirstOrDefault(u => u.Id == taskInsertDTO.UserId);
-
             var task = new Models.Task(taskInsertDTO.Title, taskInsertDTO.Description);
+
+            if (user is null)
+                return NotFound("Usuário não encontrado");
 
             user.Tasks ??= new List<Models.Task>();
             user.Tasks.Add(task);
            
+            
             context.SaveChanges();
             return Ok(task);
         }

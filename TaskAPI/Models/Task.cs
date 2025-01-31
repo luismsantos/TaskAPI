@@ -9,20 +9,23 @@ namespace TaskAPI.Models
         public String Title { get; private set; }
         public String Description { get; private set; }
 
+        public Task(String title, String description)
+        {
+           ValidationTask(title, description);
+            Title = title;
+            Description = description;
+        }
+
         public void SetTitle(String title)
         {
+           ValidationTask(title, Description);
             Title = title;
         }
 
         public void SetDescription(String description)
         {
+           ValidationTask(Title, description);
             Description = description;
-        }
-
-        public Task(String title, String description)
-        {
-            SetTitle(title);
-            SetDescription(description);
         }
 
         public void ValidationTask(String title, String description)
@@ -41,9 +44,6 @@ namespace TaskAPI.Models
             {
                 throw new ArgumentException("O titulo deve ter no máximo 30 caracteres e a descrição deve ter no máximo 100 caracteres");
             }
-
-            SetTitle(title);
-            SetDescription(description);
         }
     }
 }
