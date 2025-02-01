@@ -36,6 +36,22 @@ namespace TaskAPI.Controllers
             return Ok(user);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] UserInsertDTO userInsertDTO)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user is null)   
+                return NotFound("Usuário não encontrado");
+
+            user.SetName(userInsertDTO.Name);
+            user.SetEmail(userInsertDTO.Email);
+            user.SetPassword(userInsertDTO.Password);
+
+            context.SaveChanges();
+            return Ok(user);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
