@@ -36,6 +36,17 @@ namespace TaskAPI.Controllers
             return Ok(user);
         }
 
-    }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
 
+            if (user is null)
+                return NotFound("Usuário não encontrado");
+
+            context.Users.Remove(user);
+            context.SaveChanges();
+            return Ok("Usuário removido com sucesso");
+        }
+    }
 }
