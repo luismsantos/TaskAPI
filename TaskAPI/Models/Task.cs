@@ -11,39 +11,31 @@ namespace TaskAPI.Models
 
         public Task(String title, String description)
         {
-           ValidationTask(title, description);
-            Title = title;
-            Description = description;
+            SetTitle(title);
+            SetDescription(description);
         }
 
         public void SetTitle(String title)
         {
-           ValidationTask(title, Description);
+            if (string.IsNullOrEmpty(title))
+                throw new ArgumentException("O título não pode ser nulo ou vazio");
+
+            if (title.Length > 100)
+                throw new ArgumentException("O título não pode ser maior que 100 caracteres");
+
             Title = title;
         }
 
         public void SetDescription(String description)
         {
-           ValidationTask(Title, description);
+
+            if (string.IsNullOrEmpty(description))
+                throw new ArgumentException("A descrição não pode ser nulo ou vazio");
+
+            if (description.Length > 300)
+                throw new ArgumentException("A descrição não pode ser maior que 300 caracteres");
+
             Description = description;
-        }
-
-        public void ValidationTask(String title, String description)
-        {
-            if(string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
-            {
-                throw new ArgumentException("O titulo e/ou descrição não podem ser nulos ou vazios");
-            }
-
-            if (title.Length < 5 || description.Length < 5)
-            {
-                throw new ArgumentException("O titulo e/ou descrição devem ter no mínimo 5 caracteres");
-            }
-
-            if (title.Length > 30 || description.Length > 100)
-            {
-                throw new ArgumentException("O titulo deve ter no máximo 30 caracteres e a descrição deve ter no máximo 100 caracteres");
-            }
         }
     }
 }
