@@ -20,7 +20,7 @@ namespace TaskAPI.Controllers
 
         [HttpPost]
         public ActionResult<User> Post([FromBody] TaskInsertDTO taskInsertDTO)
-        { 
+        {
             var user = context.Users.FirstOrDefault(u => u.Id == taskInsertDTO.UserId);
             var task = new Models.Task(taskInsertDTO.Title, taskInsertDTO.Description);
 
@@ -29,8 +29,7 @@ namespace TaskAPI.Controllers
 
             user.Tasks ??= new List<Models.Task>();
             user.Tasks.Add(task);
-           
-            
+
             context.SaveChanges();
             return Ok(task);
         }
@@ -43,14 +42,14 @@ namespace TaskAPI.Controllers
             if (task is null)
                 return NotFound("Tarefa não encontrada");
 
-            if(task.Title != taskInsertDTO.Title)
+            if (task.Title != taskInsertDTO.Title)
                 task.SetTitle(taskInsertDTO.Title);
 
             if (task.Description != taskInsertDTO.Description)
                 task.SetDescription(taskInsertDTO.Description);
 
-            if (task.Title == taskInsertDTO.Title && task.Description == taskInsertDTO.Description)
-                return BadRequest("Nenhum dado foi alterado");
+            //if (task.Title == taskInsertDTO.Title && task.Description == taskInsertDTO.Description)
+              //  return BadRequest("Nenhum dado foi alterado");
 
             context.SaveChanges();
             return Ok(task);
