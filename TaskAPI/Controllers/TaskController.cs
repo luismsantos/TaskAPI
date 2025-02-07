@@ -42,14 +42,14 @@ namespace TaskAPI.Controllers
             if (task is null)
                 return NotFound("Tarefa não encontrada");
 
+            if (task.Title == taskInsertDTO.Title && task.Description == taskInsertDTO.Description)
+                return BadRequest("Nenhum dado foi alterado");
+
             if (task.Title != taskInsertDTO.Title)
                 task.SetTitle(taskInsertDTO.Title);
 
             if (task.Description != taskInsertDTO.Description)
                 task.SetDescription(taskInsertDTO.Description);
-
-            //if (task.Title == taskInsertDTO.Title && task.Description == taskInsertDTO.Description)
-              //  return BadRequest("Nenhum dado foi alterado");
 
             context.SaveChanges();
             return Ok(task);
