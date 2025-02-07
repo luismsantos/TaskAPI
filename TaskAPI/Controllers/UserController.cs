@@ -44,9 +44,20 @@ namespace TaskAPI.Controllers
             if (user is null)   
                 return NotFound("Usuário não encontrado");
 
-            user.SetName(userInsertDTO.Name);
-            user.SetEmail(userInsertDTO.Email);
-            user.SetPassword(userInsertDTO.Password);
+            if (user.Email == userInsertDTO.Email && user.Password == userInsertDTO.Password)
+                return BadRequest("Dados iguais não podem ser alterados");
+            
+            if (user.Name == userInsertDTO.Name)
+                return BadRequest("Dados iguais não podem ser alterados");
+
+            if (user.Name != userInsertDTO.Name)
+                user.SetName(userInsertDTO.Name);
+
+            if (user.Email != userInsertDTO.Email)
+                user.SetEmail(userInsertDTO.Email);
+            
+            if (user.Password != userInsertDTO.Password)
+                user.SetPassword(userInsertDTO.Password);
 
             context.SaveChanges();
             return Ok(user);
